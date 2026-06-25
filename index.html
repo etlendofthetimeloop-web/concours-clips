@@ -2,12 +2,23 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Classement Clips Live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After The Noise — Concours Live</title>
 
 <style>
+:root{
+  --gold:#d6a94f;
+  --cyan:#20e8ff;
+  --pink:#ff42db;
+  --bg:#050509;
+  --card:rgba(255,255,255,.085);
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  background:radial-gradient(circle at top,#1b1b35,#050509 70%);
+  background:radial-gradient(circle at top,#19192f,#050509 70%);
   color:white;
   font-family:Arial,sans-serif;
   overflow-y:auto;
@@ -20,7 +31,7 @@ body{
   width:42vw;
   height:100vh;
   background:url("singer.png") center bottom/contain no-repeat;
-  opacity:.08;
+  opacity:.07;
   z-index:0;
   pointer-events:none;
 }
@@ -28,21 +39,19 @@ body{
 .page{
   width:100vw;
   min-height:100vh;
-  padding:24px 28px;
-  box-sizing:border-box;
+  padding:22px 26px;
   position:relative;
   z-index:1;
 }
 
 .logo{
   display:block;
-  width:280px;
-  max-height:140px;
+  width:230px;
+  max-height:120px;
   object-fit:contain;
-  margin:0 auto 15px;
-  filter:
-    drop-shadow(0 0 8px rgba(255,255,255,.7))
-    drop-shadow(0 0 25px rgba(0,234,255,.5));
+  margin:0 auto 6px;
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.55))
+         drop-shadow(0 0 28px rgba(32,232,255,.35));
 }
 
 h1{
@@ -50,39 +59,82 @@ h1{
   font-size:36px;
   margin:0;
   text-transform:uppercase;
+  letter-spacing:.5px;
 }
 
 .subtitle{
   text-align:center;
-  color:#ffd36a;
-  font-size:19px;
-  margin:8px 0 18px;
+  color:var(--gold);
+  font-size:18px;
+  margin:8px 0 12px;
+  font-weight:bold;
+}
+
+.actions{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:12px 0 18px;
+  flex-wrap:wrap;
+}
+
+.button{
+  border:1px solid rgba(214,169,79,.7);
+  background:linear-gradient(180deg,#d6a94f,#a87928);
+  color:#111;
+  font-weight:bold;
+  text-decoration:none;
+  padding:10px 18px;
+  border-radius:999px;
+  box-shadow:0 0 20px rgba(214,169,79,.22);
+}
+
+.live{
+  color:#ff5050;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+.ranking{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
 }
 
 .item{
   display:grid;
-  grid-template-columns:46px 58px 1fr 70px;
+  grid-template-columns:46px 62px 1fr 78px;
   gap:12px;
   align-items:center;
-  background:rgba(255,255,255,.09);
+  background:var(--card);
   border:1px solid rgba(255,255,255,.12);
   border-radius:18px;
   padding:10px 12px;
-  margin-bottom:9px;
   backdrop-filter:blur(8px);
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+  transition:transform .55s ease, background .55s ease, border .55s ease;
+  animation:enter .45s ease both;
+}
+
+.item:hover{
+  transform:translateY(-2px);
 }
 
 .item.top1{
-  background:linear-gradient(90deg,rgba(255,215,0,.38),rgba(255,255,255,.09));
-  border:1px solid rgba(255,215,0,.55);
+  background:linear-gradient(90deg,rgba(214,169,79,.42),rgba(255,255,255,.09));
+  border-color:rgba(214,169,79,.75);
 }
 
 .item.top2{
-  background:linear-gradient(90deg,rgba(190,210,255,.22),rgba(255,255,255,.09));
+  background:linear-gradient(90deg,rgba(190,210,255,.22),rgba(255,255,255,.08));
 }
 
 .item.top3{
-  background:linear-gradient(90deg,rgba(205,127,50,.25),rgba(255,255,255,.09));
+  background:linear-gradient(90deg,rgba(205,127,50,.25),rgba(255,255,255,.08));
+}
+
+.item.changed{
+  animation:pulse .9s ease;
 }
 
 .rank{
@@ -92,12 +144,12 @@ h1{
 }
 
 .cover{
-  width:50px;
-  height:72px;
+  width:54px;
+  height:76px;
   object-fit:cover;
   border-radius:9px;
   background:#222;
-  box-shadow:0 6px 18px rgba(0,0,0,.45);
+  box-shadow:0 8px 18px rgba(0,0,0,.5);
 }
 
 .title{
@@ -111,10 +163,10 @@ h1{
 .badge{
   display:inline-block;
   margin-top:4px;
+  color:var(--gold);
   font-size:11px;
-  color:#ffd36a;
-  letter-spacing:.6px;
   text-transform:uppercase;
+  letter-spacing:.7px;
 }
 
 .bar-bg{
@@ -127,87 +179,82 @@ h1{
 
 .bar{
   height:100%;
-  background:linear-gradient(90deg,#00eaff,#ff3df2);
+  width:0%;
+  background:linear-gradient(90deg,var(--cyan),var(--pink));
   border-radius:20px;
   transition:width 1s ease;
 }
 
 .votes{
-  font-size:24px;
-  font-weight:bold;
   text-align:right;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.small{
+  display:block;
+  font-size:11px;
+  opacity:.65;
+  font-weight:normal;
 }
 
 .footer{
   text-align:center;
-  font-size:17px;
-  opacity:.75;
-  margin:14px 0 20px;
+  opacity:.7;
+  font-size:15px;
+  margin:16px 0 20px;
 }
 
-.loading{
-  text-align:center;
-  font-size:22px;
-  color:#ffd36a;
-  margin-top:40px;
+@keyframes enter{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-@media (max-width:700px){
+@keyframes pulse{
+  0%{box-shadow:0 0 0 rgba(214,169,79,0)}
+  45%{box-shadow:0 0 35px rgba(214,169,79,.55)}
+  100%{box-shadow:0 10px 30px rgba(0,0,0,.18)}
+}
+
+@media(max-width:700px){
   .background-singer{
     right:-120px;
     width:80vw;
-    opacity:.05;
+    opacity:.045;
   }
 
-  .page{
-    padding:16px 10px;
-  }
+  .page{padding:14px 9px}
 
-  .logo{
-    width:115px;
-  }
+  .logo{width:150px}
 
-  h1{
-    font-size:23px;
-  }
+  h1{font-size:22px}
 
-  .subtitle{
-    font-size:14px;
-    margin-bottom:12px;
+  .subtitle{font-size:14px}
+
+  .button{
+    padding:9px 14px;
+    font-size:13px;
   }
 
   .item{
-    grid-template-columns:34px 40px 1fr 40px;
+    grid-template-columns:34px 42px 1fr 42px;
     gap:8px;
     padding:8px;
-    margin-bottom:7px;
     border-radius:14px;
   }
 
   .cover{
-    width:38px;
-    height:54px;
+    width:40px;
+    height:57px;
   }
 
-  .rank{
-    font-size:18px;
-  }
+  .rank{font-size:18px}
 
-  .title{
-    font-size:14px;
-  }
+  .title{font-size:14px}
 
-  .badge{
-    font-size:9px;
-  }
+  .votes{font-size:17px}
 
-  .votes{
-    font-size:17px;
-  }
-
-  .footer{
-    font-size:13px;
-  }
+  .badge{font-size:9px}
 }
 </style>
 </head>
@@ -220,17 +267,22 @@ h1{
   <img class="logo" src="logo.png">
 
   <h1>🏆 Quels titres auront leur clip ?</h1>
-  <div class="subtitle" id="subtitle">Chargement du classement live...</div>
+  <div class="subtitle" id="subtitle">Chargement du classement...</div>
 
-  <div id="ranking">
-    <div class="loading">Chargement...</div>
+  <div class="actions">
+    <a class="button" href="https://forms.gle/o1P7CUzzwxrUfZtb9" target="_blank">🗳️ Voter maintenant</a>
+    <span class="button" id="refreshBtn">🔄 Actualiser</span>
   </div>
 
-  <div class="footer">Vote via le lien en bio TikTok 🎬</div>
+  <div id="ranking" class="ranking"></div>
+
+  <div class="footer" id="footer">Connexion au classement live...</div>
 </div>
 
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSoVsWLs_Ww7ffHP4gbok89xJ6nAexPnEgTFSAIZ6_szx_Ogt63qqmWOE4y3Mh06g7imbn-mM__Mz1n/pub?gid=1405857124&single=true&output=csv";
+
+let previousVotes = {};
 
 function splitCSV(line){
   const result=[];
@@ -239,10 +291,8 @@ function splitCSV(line){
 
   for(let i=0;i<line.length;i++){
     const char=line[i];
-
-    if(char === '"'){
-      quote=!quote;
-    }else if(char === "," && !quote){
+    if(char === '"') quote=!quote;
+    else if(char === "," && !quote){
       result.push(current);
       current="";
     }else{
@@ -261,10 +311,11 @@ function medal(index){
   return index+1;
 }
 
-function badge(index){
+function badge(index, votes, max){
   if(index===0) return "Clip presque assuré";
-  if(index===1) return "En course";
-  if(index===2) return "En course";
+  if(index===1 || index===2) return "En course";
+  if(votes > 0 && max - votes <= 2) return "Peut créer la surprise";
+  if(votes > 0) return "Soutenu par le public";
   return "";
 }
 
@@ -272,12 +323,10 @@ async function loadRanking(){
   try{
     const response = await fetch(CSV_URL + "&cache=" + Date.now());
     const text = await response.text();
-
     const lines = text.trim().split(/\r?\n/).slice(1);
 
     const songs = lines.map(line=>{
       const c = splitCSV(line);
-
       return {
         title:c[2],
         votes:Number(c[3]) || 0,
@@ -289,8 +338,8 @@ async function loadRanking(){
     const totalChoices = songs.reduce((sum,s)=>sum+s.votes,0);
     const participants = Math.round(totalChoices / 3);
 
-    document.getElementById("subtitle").innerText =
-      participants + " participant(s) · " + totalChoices + " choix enregistrés";
+    document.getElementById("subtitle").innerHTML =
+      `<span class="live">● LIVE</span> · ${participants} participant(s) · ${totalChoices} choix enregistrés`;
 
     const ranking = document.getElementById("ranking");
     ranking.innerHTML = "";
@@ -298,32 +347,43 @@ async function loadRanking(){
     songs.forEach((s,i)=>{
       const percent = Math.max(4,(s.votes/max)*100);
       const topClass = i===0 ? "top1" : i===1 ? "top2" : i===2 ? "top3" : "";
-      const badgeText = badge(i);
+      const changed = previousVotes[s.title] !== undefined && previousVotes[s.title] !== s.votes;
+      const badgeText = badge(i, s.votes, max);
 
-      ranking.innerHTML += `
-        <div class="item ${topClass}">
-          <div class="rank">${medal(i)}</div>
-          <img class="cover" src="${s.image}">
-          <div>
-            <div class="title">${s.title}</div>
-            ${badgeText ? `<div class="badge">${badgeText}</div>` : ``}
-            <div class="bar-bg">
-              <div class="bar" style="width:${percent}%"></div>
-            </div>
+      const item = document.createElement("div");
+      item.className = `item ${topClass} ${changed ? "changed" : ""}`;
+
+      item.innerHTML = `
+        <div class="rank">${medal(i)}</div>
+        <img class="cover" src="${s.image}">
+        <div>
+          <div class="title">${s.title}</div>
+          ${badgeText ? `<div class="badge">${badgeText}</div>` : ``}
+          <div class="bar-bg">
+            <div class="bar" style="width:${percent}%"></div>
           </div>
-          <div class="votes">${s.votes}</div>
         </div>
+        <div class="votes">${s.votes}<span class="small">voix</span></div>
       `;
+
+      ranking.appendChild(item);
+      previousVotes[s.title] = s.votes;
     });
+
+    const now = new Date();
+    document.getElementById("footer").innerText =
+      "Dernière mise à jour : " + now.toLocaleTimeString("fr-FR");
 
   }catch(error){
     document.getElementById("ranking").innerHTML =
-      '<div class="loading">Erreur de chargement. Vérifie le lien CSV.</div>';
+      '<div class="subtitle">Erreur de chargement du classement.</div>';
   }
 }
 
+document.getElementById("refreshBtn").addEventListener("click", loadRanking);
+
 loadRanking();
-setInterval(loadRanking,10000);
+setInterval(loadRanking, 8000);
 </script>
 
 </body>
