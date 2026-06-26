@@ -79,8 +79,7 @@
       </p>
 
       <div class="cta-wrap">
-        <a class="button button--primary" href="https://forms.gle/o1P7CUzzwxrUfZtb9" target="_blank" rel="noopener">
-          <span class="button__glow" aria-hidden="true"></span>
+        <<a class="button button--primary" href="#vote">
           <span class="button__shine" aria-hidden="true"></span>
           Je vote
         </a>
@@ -97,6 +96,25 @@
     </a>
   </section>
 
+<section class="vote-section" id="vote">
+  <div class="vote-bg"></div>
+
+  <div class="vote-inner">
+    <p class="vote-kicker">AFTER THE NOISE</p>
+    <h2>Choisissez vos 3 titres</h2>
+    <p class="vote-subtitle">Votre voix décidera du prochain chapitre.</p>
+
+    <div class="vote-counter" id="atnVoteCounter">0 / 3 sélectionné</div>
+
+    <div class="vote-grid" id="atnVoteGrid"></div>
+
+    <button class="vote-submit" id="atnVoteSubmit" disabled>
+      Valider mon vote
+    </button>
+
+    <p class="vote-message" id="atnVoteMessage"></p>
+  </div>
+</section>
   <section class="ranking-section" id="classement" aria-label="Classement en direct">
     <div class="ranking-section__inner">
       <header class="ranking-header">
@@ -105,9 +123,9 @@
       </header>
 
       <div class="actions">
-        <a class="button button--secondary" href="https://forms.gle/o1P7CUzzwxrUfZtb9" target="_blank" rel="noopener">Voter maintenant</a>
-        <span class="button button--ghost" id="refreshBtn" role="button" tabindex="0">Actualiser</span>
-      </div>
+  <a class="button button--secondary" href="#vote">Voter maintenant</a>
+  <span class="button button--ghost" id="refreshBtn" role="button" tabindex="0">Actualiser</span>
+</div>
 
       <div id="ranking" class="ranking"></div>
 
