@@ -127,10 +127,12 @@ async function loadRanking(manual=false){
       showToast("✓ Classement mis à jour");
     }
 
-  }catch(error){
+catch(error){
+    console.error("ERREUR CLASSEMENT :", error);
+
     document.getElementById("ranking").innerHTML =
       '<div class="subtitle">Erreur de chargement du classement.</div>';
-  }
+}
 
   if(manual){
     refreshBtn.classList.remove("syncing");
