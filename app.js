@@ -227,7 +227,10 @@ if (atnGrid && atnCounter && atnSubmit) {
         card.classList.add("selected");
       }
 
-      atnCounter.textContent = `${atnSelected.length} / 3 sélectionné`;
+      atnCounter.textContent =
+  atnSelected.length === 3
+    ? "✓ Sélection complète"
+    : `${atnSelected.length} / 3 sélectionné`;
       atnSubmit.disabled = atnSelected.length !== 3;
     });
 
